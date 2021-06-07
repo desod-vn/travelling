@@ -25,7 +25,7 @@ class PlaceController extends Controller
 
         if($request->has('search'))
         {
-            $places->where(['name', 'like', '%' . $request->search . '%']);
+            $places->where('name', 'like', '%' . $request->search . '%');
         }
 
         $places = $places->get();
@@ -64,7 +64,7 @@ class PlaceController extends Controller
         ]);
     }
 
-   
+
     public function update(UpdateRequest $request, Place $place)
     {
         $image = substr($place->image, strlen(Status::APP));
@@ -75,7 +75,7 @@ class PlaceController extends Controller
         {
             Storage::delete($image);
             $image = $request->file('image')->store(Status::PLACE_IMAGE);
-            $place->image = Status::APP . $image;   
+            $place->image = Status::APP . $image;
         }
 
         $place->slug = Str::slug($place->name, '-');
@@ -91,7 +91,7 @@ class PlaceController extends Controller
     public function destroy(Place $place)
     {
         $place->delete();
-        
+
         return response()->json([
             'status' => Status::SUCCESS,
             'message' => 'Moved to trash.',

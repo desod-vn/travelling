@@ -19,11 +19,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'admin',
+            'name' => 'Vương Toàn Thắng',
             'email' => 'thangdotpro@gmail.com',
             'password' => Hash::make('123123'),
             'role' => 'admin',
-            'fullname' => 'Vương Toàn Thắng',
             'avatar' => Status::APP . 'default/admin.png',
             'gender' => 'Nam',
             'phone' => '0389064540',
@@ -34,11 +33,10 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'xuanhoa',
+            'name' => 'Lê Xuân Hoa',
             'email' => 'lexuanhoa@gmail.com',
             'password' => Hash::make('123123'),
             'role' => 'admin',
-            'fullname' => 'Lê Xuân Hoa',
             'avatar' => Status::APP . 'default/author.png',
             'gender' => 'Nữ',
             'phone' => '0389064540',
@@ -49,11 +47,10 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'user',
+            'name' => 'Người dùng',
             'email' => 'user@gmail.com',
             'password' => Hash::make('123123'),
             'role' => 'user',
-            'fullname' => 'Người dùng',
             'avatar' => Status::APP . 'default/author.png',
             'gender' => 'Nam',
             'phone' => '0389064540',

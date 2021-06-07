@@ -18,9 +18,9 @@ class AuthController extends Controller
     // Đăng nhập
     public function login(LoginRequest $request)
     {
-        if(Auth::attempt(['name' => $request->name, 'password' => $request->password]))
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
         {
-            $user = User::where('name', $request->name)->first();
+            $user = User::where('email', $request->email)->first();
 
             $user->token = $user->createToken('App')->accessToken;
 

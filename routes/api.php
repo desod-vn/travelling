@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Place\PlaceController;
+use App\Http\Controllers\User\UserController;
+
 
 
 
@@ -26,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
+
     /**********
     *****
     ***QUẢN LÝ
@@ -38,6 +41,20 @@ Route::group(['middleware' => 'auth:api'], function() {
             // Sửa
             Route::post('/place/{place}', [PlaceController::class, 'update'])
                 ->name('place.update');
+
+        // Người dùng
+            // Thêm, sửa, xóa
+            Route::resource('/user', UserController::class)
+                ->except(['create', 'edit']);
+            // Trang cá nhân
+            Route::get('/profile', [UserController::class, 'profile'])
+                ->name('profile');
+            // Ảnh đại diện
+            Route::post('/user/avatar/{user}', [UserController::class, 'avatar'])
+                ->name('user.avatar');
+            // Đổi mật khẩu
+            Route::post('user/password/{user}', [UserController::class, 'password'])
+                ->name('user.password');
     /**********
     *****
     ***BÀI VIẾT
@@ -47,37 +64,31 @@ Route::group(['middleware' => 'auth:api'], function() {
         // Thêm, xóa
         Route::resource('/post', PostController::class)
             ->except(['index', 'show', 'update', 'create', 'edit']);
-        
+
         // Sửa
         Route::post('/post/{post}', [PostController::class, 'update'])
-            ->name('post.update');        
+            ->name('post.update');
 });
 
 Route::group([], function() {
 
     /**********
     *****
-    ***CHUYÊN MỤC
+    ***Địa danh
     *****
     **********/
 
-        // Tất cả chuyên mục
+        // Tất cả địa danh
         Route::get('/place', [PlaceController::class, 'index']);
 
-        // Một chuyên mục
+        // Một địa danh
         Route::get('/place/{place}', [PlaceController::class, 'show']);
-    
+
     /**********
     *****
-    ***BÀI VIẾT
+    ***Người dùng
     *****
     **********/
 
-        // Tất cả bài viết
-        Route::get('/post', [PostController::class, 'index']);
 
-        // Một bài viết
-        Route::get('/post/{post}', [PostController::class, 'show']);
-
-    
 });

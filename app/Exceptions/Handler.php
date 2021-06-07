@@ -40,6 +40,6 @@ class Handler extends ExceptionHandler
                 'message' => 'The user is not authorized.',
             ]);
         });
-        
+
     }
 }
