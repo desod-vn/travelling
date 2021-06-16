@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('box_id')->constrained('boxes');
-            $table->date('time');
+            $table->string('time');
             $table->string('action');
             $table->text('note')->nullable();
         });

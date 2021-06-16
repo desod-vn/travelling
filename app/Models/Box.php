@@ -4,10 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+
 
 class Box extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'status',
+        'image',
+        'content',
+        'vehicle',
+        'people',
+        'start',
+        'end',
+        'fee',
+        'place_id',
+    ];
+
+    public function joinIn($box, $user)
+    {
+        return DB::table('box_user')
+                ->where([['user_id', $user], ['box_id', $box]])
+                ->update(['status' => 1]);
+    }
 
     public function user()
     {
@@ -21,11 +44,16 @@ class Box extends Model
 
     public function messages()
     {
+      return $this->hasMany(Message::class)->with('user')->latest();
+    }
+
+    public function hasMembers()
+    {
         return $this->belongsToMany(User::class);
     }
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class)->orderBy('time', 'ASC');
     }
 }

@@ -16,7 +16,7 @@ class PlacePolicy
         {
             return true;
         }
-        
+
         return false;
     }
 

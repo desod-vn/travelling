@@ -27,7 +27,6 @@ class PlaceController extends Controller
         {
             $places->where('name', 'like', '%' . $request->search . '%');
         }
-
         $places = $places->get();
 
         return response()->json([

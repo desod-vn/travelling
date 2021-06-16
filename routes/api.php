@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Place\PlaceController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Box\BoxController;
+use App\Http\Controllers\Message\MessageController;
+use App\Http\Controllers\Notification\NotificationController;
+
 
 
 
@@ -41,6 +45,28 @@ Route::group(['middleware' => 'auth:api'], function() {
             // Sửa
             Route::post('/place/{place}', [PlaceController::class, 'update'])
                 ->name('place.update');
+
+        // Nhóm chát
+            // Thêm, xóa
+            Route::resource('/box', BoxController::class)
+                ->except(['index', 'show', 'create', 'edit', 'update']);
+            // Sửa
+            Route::post('/box/{box}', [BoxController::class, 'update'])
+                ->name('box.update');
+            // Tham gia
+            Route::post('/box/join/{box}', [BoxController::class, 'join'])
+                ->name('box.join');
+            // Phê duyệt
+            Route::post('/box/consider/{box}', [BoxController::class, 'joinIn'])
+                ->name('box.joinIn');
+            // Phê duyệt
+            Route::post('/message', [MessageController::class, 'store'])
+                ->name('box.message');
+
+        // Lịch trình
+            // Thêm, sửa, xóa
+            Route::resource('/notification', NotificationController::class)
+                ->except(['index', 'show', 'create', 'edit']);
 
         // Người dùng
             // Thêm, sửa, xóa
@@ -83,6 +109,18 @@ Route::group([], function() {
 
         // Một địa danh
         Route::get('/place/{place}', [PlaceController::class, 'show']);
+
+    /**********
+    *****
+    ***Địa danh
+    *****
+    **********/
+
+        // Tất cả nhóm chát
+        Route::get('/box', [BoxController::class, 'index']);
+
+        // Một nhóm chát
+        Route::get('/box/{box}', [BoxController::class, 'show']);
 
     /**********
     *****

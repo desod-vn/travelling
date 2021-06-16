@@ -8,11 +8,11 @@ class Status
     const SUCCESS = true;
     const FAILURE = false;
 
-    const POST_PER_PAGE = 10;
+    const BOX_PER_PAGE = 9;
     const COMMENT_PER_PAGE = 10;
     const USER_PER_PAGE = 10;
 
     const USER_IMAGE = 'user';
     const PLACE_IMAGE = 'place';
-    const BANNER_IMAGE = 'banner';
+    const BOX_IMAGE = 'box';
 }

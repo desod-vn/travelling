@@ -15,7 +15,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:50|unique:places',
+            'name' => 'required|string|min:3|max:255|unique:places',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
         ];
     }
@@ -29,7 +29,7 @@ class CreateRequest extends FormRequest
             'name.max' => 'Tên địa danh chỉ chứa tối đa :max ký tự.',
             'name.unique' => 'Tên địa danh đã tồn tại.',
 
-            'image.required' => 'Hình ảnh bài viết không được để trống.',
+            'image.required' => 'Hình ảnh địa danh không được để trống.',
             'image.image' => 'Hình ảnh địa danh không hợp lệ.',
             'image.mimes' => 'Hình ảnh địa danh chỉ cho phép jpeg,png,jpg,gif.',
             'image.max' => 'Hình ảnh địa danh có dung lượng nhỏ hơn :max KB.',

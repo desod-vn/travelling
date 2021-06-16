@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBoxUserTable extends Migration
+class CreateMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateBoxUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('box_user', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('box_id')->constrained('boxes');
             $table->foreignId('user_id')->constrained('users');
-            $table->integer('status')->default(0);
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateBoxUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('box_user');
+        Schema::dropIfExists('messages');
     }
 }

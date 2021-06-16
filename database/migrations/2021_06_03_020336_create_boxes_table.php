@@ -24,10 +24,10 @@ class CreateBoxesTable extends Migration
             $table->integer('people');
             $table->date('start');
             $table->date('end');
-            $table->integer('view')->default(0);
             $table->bigInteger('fee');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('place_id')->constrained('places');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
