@@ -32,7 +32,7 @@ class BoxPolicy
 
     public function delete(User $user, Box $box)
     {
-        return $user->role === 'admin';
+        return $user->id === $box->user_id;
     }
 
     public function restore(User $user, Box $box)

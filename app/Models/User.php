@@ -39,7 +39,7 @@ class User extends Authenticatable
       return $this->hasMany(Message::class);
     }
 
-    public function menberIn()
+    public function memberIn()
     {
         return $this->belongsToMany(Box::class);
     }

@@ -21,7 +21,7 @@ class PlaceController extends Controller
 
     public function index(Request $request)
     {
-        $places = Place::query()->orderBy('id', 'DESC');
+        $places = Place::query()->orderBy('name', 'ASC');
 
         if($request->has('search'))
         {

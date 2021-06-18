@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Box;
 
 use App\Status;
 use App\Models\Box;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ class BoxController extends Controller
 
     public function index(Request $request)
     {
-        $boxes = Box::query()->latest();
+        $boxes = Box::query()->orderBy('name', 'ASC');
 
         if($request->has('search'))
         {
@@ -35,6 +36,22 @@ class BoxController extends Controller
         return response()->json([
             'status' => Status::SUCCESS,
             'data' => $boxes,
+        ]);
+    }
+
+
+    public function joined(Box $box)
+    {
+        $status = $box->joined(Auth::user()->id, $box->id);
+
+        if($status)
+            return response()->json([
+                'status' => Status::SUCCESS,
+                'data' => $status,
+            ]);
+
+        return response()->json([
+            'status' => Status::FAILURE,
         ]);
     }
 
@@ -58,6 +75,36 @@ class BoxController extends Controller
 
         return response()->json([
             'status' => Status::SUCCESS,
+        ]);
+    }
+
+    public function joinOut(Box $box, Request $request)
+    {
+        $this->authorize('update', $box);
+
+        $box->hasMembers()->detach($request->user);
+
+        return response()->json([
+            'status' => Status::SUCCESS,
+        ]);
+    }
+
+    public function joinInvite(Box $box, Request $request)
+    {
+        $this->authorize('update', $box);
+
+        $user = User::where('email', $request->user)->first();
+
+        if($user) {
+            $box->hasMembers()->attach($user->id, ['status' => 1]);
+
+            return response()->json([
+                'status' => Status::SUCCESS,
+            ]);
+        }
+
+        return response()->json([
+            'status' => Status::FAILURE,
         ]);
     }
 

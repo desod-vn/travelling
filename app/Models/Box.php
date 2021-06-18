@@ -32,6 +32,13 @@ class Box extends Model
                 ->update(['status' => 1]);
     }
 
+    public function joined($user, $box)
+    {
+        return DB::table('box_user')
+                ->where([['user_id', $user], ['box_id', $box]])
+                ->first();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -49,7 +56,7 @@ class Box extends Model
 
     public function hasMembers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('status');
     }
 
     public function notifications()

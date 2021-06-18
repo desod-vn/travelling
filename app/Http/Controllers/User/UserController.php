@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(User::class, 'user', ['except' => ['show']]);
     }
 
     public function index(Request $request)
@@ -89,6 +89,20 @@ class UserController extends Controller
         return response()->json([
             'status' => Status::FAILURE,
             'message' => 'Password was not changed.',
+        ]);
+    }
+
+    public function boxMe()
+    {
+        $user = Auth::user();
+
+        $user->boxes;
+
+        $user->memberIn;
+
+        return response()->json([
+            'status' => Status::SUCCESS,
+            'data' => $user,
         ]);
     }
 

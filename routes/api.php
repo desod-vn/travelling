@@ -46,6 +46,13 @@ Route::group(['middleware' => 'auth:api'], function() {
             Route::post('/place/{place}', [PlaceController::class, 'update'])
                 ->name('place.update');
 
+
+
+    /**********
+    *****
+    ***BOX CHAT
+    *****
+    **********/
         // Nhóm chát
             // Thêm, xóa
             Route::resource('/box', BoxController::class)
@@ -53,25 +60,48 @@ Route::group(['middleware' => 'auth:api'], function() {
             // Sửa
             Route::post('/box/{box}', [BoxController::class, 'update'])
                 ->name('box.update');
-            // Tham gia
-            Route::post('/box/join/{box}', [BoxController::class, 'join'])
-                ->name('box.join');
-            // Phê duyệt
-            Route::post('/box/consider/{box}', [BoxController::class, 'joinIn'])
-                ->name('box.joinIn');
-            // Phê duyệt
+
+            // Thành viên nhóm
+                // Yêu cầu tham gia
+                Route::post('/box/join/{box}', [BoxController::class, 'join'])
+                    ->name('box.join');
+                // Xem trạng thái tham gia
+                Route::get('/box/joined/{box}', [BoxController::class, 'joined'])
+                    ->name('box.joined');
+                // Phê duyệt
+                Route::post('/box/consider/{box}', [BoxController::class, 'joinIn'])
+                    ->name('box.joinIn');
+                // Xóa
+                Route::post('/box/remove/{box}', [BoxController::class, 'joinOut'])
+                    ->name('box.joinOut');
+                // Xóa
+                Route::post('/box/invite/{box}', [BoxController::class, 'joinInvite'])
+                    ->name('box.joinInvite');
+
+
+            // Nhắn tin
             Route::post('/message', [MessageController::class, 'store'])
                 ->name('box.message');
+
+
+
 
         // Lịch trình
             // Thêm, sửa, xóa
             Route::resource('/notification', NotificationController::class)
                 ->except(['index', 'show', 'create', 'edit']);
 
+
+
+    /**********
+    *****
+    ***NGƯỜI DÙNG
+    *****
+    **********/
         // Người dùng
             // Thêm, sửa, xóa
             Route::resource('/user', UserController::class)
-                ->except(['create', 'edit']);
+                ->except(['create', 'edit', 'show']);
             // Trang cá nhân
             Route::get('/profile', [UserController::class, 'profile'])
                 ->name('profile');
@@ -81,19 +111,11 @@ Route::group(['middleware' => 'auth:api'], function() {
             // Đổi mật khẩu
             Route::post('user/password/{user}', [UserController::class, 'password'])
                 ->name('user.password');
-    /**********
-    *****
-    ***BÀI VIẾT
-    *****
-    **********/
+            // Nhóm của tôi
+            Route::get('box/my', [UserController::class, 'boxMe'])
+                ->name('myboxes');
 
-        // Thêm, xóa
-        Route::resource('/post', PostController::class)
-            ->except(['index', 'show', 'update', 'create', 'edit']);
 
-        // Sửa
-        Route::post('/post/{post}', [PostController::class, 'update'])
-            ->name('post.update');
 });
 
 Route::group([], function() {
@@ -127,6 +149,9 @@ Route::group([], function() {
     ***Người dùng
     *****
     **********/
+        // Xem thông tin
+        Route::get('/user/{user}', [UserController::class, 'show'])
+            ->name('user.show');
 
 
 });
